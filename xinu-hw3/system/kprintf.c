@@ -1,4 +1,5 @@
 /**
+ *TA-BOT:MAILTO khasukai@gmail.com charles.titzer@marquette.edu
  * @file kprintf.c
  */
 
@@ -79,7 +80,7 @@ syscall kputc(uchar c)
 
     // TODO: Check UART flags register.
     //       Once the Transmitter FIFO is not full, send character c.
-
+    while (regptr->fr
     return SYSERR;
 }
 
