@@ -8,7 +8,7 @@
 #include <xinu.h>
 
 #define UNGETMAX 10             /* Can un-get at most 10 characters. */
-
+int counter = 0;
 static unsigned char ungetArray[UNGETMAX];
 
 /**
@@ -25,10 +25,19 @@ syscall kgetc(void)
 
     /* Pointer to the UART control and status registers.  */
     regptr = (struct pl011_uart_csreg *)0x3F201000;
-
+	
     // TODO: First, check the unget buffer for a character.
     //       Otherwise, check UART flags register, and
     //       once the receiver is not empty, get character c.
+	if (counter>0){
+		counter--;
+		return ungetArray[counter];
+	}
+	while(regptr -> fr & PL011_FR_RXFE) {}
+
+	return ((int)regptr -> dr);
+
+
 
     return SYSERR;
 }
@@ -43,6 +52,7 @@ syscall kcheckc(void)
     regptr = (struct pl011_uart_csreg *)0x3F201000;
 
     // TODO: Check the unget buffer and the UART for characters.
+		
 
     return SYSERR;
 }
@@ -80,7 +90,9 @@ syscall kputc(uchar c)
 
     // TODO: Check UART flags register.
     //       Once the Transmitter FIFO is not full, send character c.
-    while (regptr->fr
+    while (regptr->fr & PL011_FR_TXFF) {}
+	
+	regptr->dr =c;
     return SYSERR;
 }
 
