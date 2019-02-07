@@ -51,8 +51,8 @@ syscall kcheckc(void)
 
     // TODO: Check the unget buffer and the UART for characters
 	
-    if (regptr -> fr & PL011_FR_BUSY)	//if (statement true) then UART is transmitting data so no char is available?
-	return 0;			//not too confident in what this is supposed to be doing
+    if (regptr -> fr & PL011_FR_RXFE && counter==0)	//changed this bit, should work now.
+	return 0;			
     else 
 	return 1;		
 
