@@ -37,8 +37,6 @@ syscall kgetc(void)
 
 	return ((int)regptr -> dr);
 
-
-
     return SYSERR;
 }
 
@@ -51,8 +49,12 @@ syscall kcheckc(void)
     volatile struct pl011_uart_csreg *regptr;
     regptr = (struct pl011_uart_csreg *)0x3F201000;
 
-    // TODO: Check the unget buffer and the UART for characters.
-		
+    // TODO: Check the unget buffer and the UART for characters
+	
+    if (regptr -> fr & PL011_FR_BUSY)	//if (statement true) then UART is transmitting data so no char is available?
+	return 0;			//not too confident in what this is supposed to be doing
+    else 
+	return 1;		
 
     return SYSERR;
 }
@@ -65,7 +67,12 @@ syscall kcheckc(void)
 syscall kungetc(unsigned char c)
 {
     // TODO: Check for room in unget buffer, put the character in or discard.
-
+    if (counter < UNGETMAX - 1){ 	//if there is room in the unget buffer, count will be 0-9 		
+	ungetArray[counter] = c;	//c will be placed in unget array at index counter. counter is incremented 
+	counter++;			//and c is returned
+    	return c;
+    }
+		
     return SYSERR;
 }
 
