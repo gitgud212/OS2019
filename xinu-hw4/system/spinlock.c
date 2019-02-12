@@ -67,6 +67,7 @@ syscall lock_acquire(spinlock_t lock)
     //       Next, call _lock_acquire assembly subroutine
     //       and properly set "core" field of lockent struct        
 
+
     return OK;
 }
 

@@ -26,6 +26,17 @@ _lock_acquire:
 	//	 	If it is, then retry.
 	//	 Second, use strex to try to set the lock to SPINLOCK_LOCKED.
 	//	 	If strex fails, try from the top.
+	
+	ldrex r1, [r0] 			//load lock into r1
+	
+	cmp r1, #SPINLOCK_LOCKED	//check if lock is locked
+	beq _lock_acquire		//if r1 == lock is locked, retry
+
+	mov r1, #SPINLOCK_LOCKED	//move lock is locked into r1
+	strex r2, r1, [r0]		//try to store lock is locked into r1
+
+	cmp r2, #1			//check if strex was successul
+	beq _lock_acquire		//if r2 == 1, then go back to the top of _lock_acquire
 
 	dmb			/* Data Memory Barrier	*/
 	bx	lr
