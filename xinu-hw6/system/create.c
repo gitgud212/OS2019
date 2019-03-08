@@ -58,6 +58,7 @@ syscall create(void *funcaddr, ulong ssize, char *name, ulong nargs, ...)
 	ppcb->core_affinity = -1;
 	strncpy(ppcb->name, name, PNMLEN);
 	// TODO: Setup PCB entry for new process.
+	
 
 
 	/* Initialize stack with accounting block. */
