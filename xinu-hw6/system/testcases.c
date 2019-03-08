@@ -57,6 +57,8 @@ void testcases(void)
 			kprintf("AGING is enabled.\r\n");
 			
 			// TODO: Create a testcase that demonstrates aging 
+
+
                         ready(create((void *) printpid, INITSTK, PRIORITY_HIGH, "PROCESS-HIGH", 1, 100), RESCHED_NO, 0);
                         ready(create((void *) printpid, INITSTK, PRIORITY_LOW , "PROCESS-LOW", 1, 5), RESCHED_NO, 0);
 
@@ -67,6 +69,9 @@ void testcases(void)
 			kprintf("\r\nAGING is not currently enabled.\r\n");
 			
 			// TODO: Create a testcase that demonstrates starvation
+
+
+
                         ready(create((void *) printpid, INITSTK, PRIORITY_HIGH, "PROCESS-HIGH", 1, 100), RESCHED_NO, 0);
                         ready(create((void *) printpid, INITSTK, PRIORITY_LOW, "PROCESS-LOW", 1, 5), RESCHED_NO, 0);
 
@@ -81,12 +86,17 @@ void testcases(void)
 			kprintf("\r\nPreemption is enabled.\r\n");
 
 			// TODO: Create a testcase that demonstrates preemption
+
+
+
                         ready(create((void *) printpid, INITSTK, PRIORITY_LOW , "PROCESS-1", 1, 100), RESCHED_NO, 0);
                         ready(create((void *) printpid, INITSTK, PRIORITY_LOW , "PROCESS-2", 1, 100), RESCHED_NO, 0);
 
-
-#else
 			kprintf("\r\nPreemption is not currently enabled...\r\n");
+
+
+
+
 #endif
 			break;
 		
